@@ -16,9 +16,11 @@ def modify_df(df):
     modified_df = modified_df[modified_df.beta == 90].reset_index(drop=1)
     modified_df = modified_df[modified_df.gamma == 90].reset_index(drop=1)
 
-    print(modified_df.sample(5))
+    # print(modified_df.sample(5))
+    ## drop sg with only one instance
     print(modified_df.shape)
     print(len(modified_df.sg.unique()))
+    print(modified_df.sg.value_counts())
     return modified_df
 
 if __name__ == "__main__":
