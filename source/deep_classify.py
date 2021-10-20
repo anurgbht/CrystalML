@@ -16,7 +16,9 @@ from keras.utils import np_utils
 from sklearn.preprocessing import LabelEncoder
 
 def load_data(cubic):
-    df = pd.read_excel(Path(OUTPUT_DIR,f'data_to_model_{cubic}_{N_SG}.xlsx'))
+    input_file = Path(OUTPUT_DIR,f'data_to_model_{cubic}_{N_SG}.xlsx')
+    print(f"Processing: {input_file}")
+    df = pd.read_excel(input_file)
     return df[INTERESTING_COLUMNS[:-1]],df[INTERESTING_COLUMNS[-1]]
 
 # First define baseline model. Then use it in Keras Classifier for the training
@@ -24,6 +26,8 @@ def baseline_model():
     # Create model here
     model = Sequential()
     model.add(Dense(15, input_dim = 6, activation = 'relu')) # Rectified Linear Unit Activation Function
+    model.add(Dense(15, activation = 'relu'))
+    model.add(Dense(15, activation = 'relu'))
     model.add(Dense(15, activation = 'relu'))
     model.add(Dense(N_SG, activation = 'softmax')) # Softmax for multi-class classification
     # Compile model here
@@ -55,7 +59,7 @@ if __name__ == "__main__":
     X = X.values
 
     # Create Keras Classifier and use predefined baseline model
-    estimator = KerasClassifier(build_fn = baseline_model, epochs = 10, batch_size = 10, verbose = 0)
+    estimator = KerasClassifier(build_fn = baseline_model, epochs = 100, batch_size = 10, verbose = 0)
     # Try different values for epoch and batch size
 
     # KFold Cross Validation
